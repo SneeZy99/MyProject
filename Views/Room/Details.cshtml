@@ -1,0 +1,22 @@
+@model kkkk11.Models.Db.Room
+
+<div class="container mt-5">
+
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body">
+
+            <h2 class="fw-bold">@Model.RoomName</h2>
+
+            <hr />
+
+            <p><b>Price:</b> @Model.Price บาท / คืน</p>
+            <p><b>Description:</b> @Model.Description</p>
+
+            <a asp-action="Index" class="btn btn-secondary">
+                ← Back
+            </a>
+
+        </div>
+    </div>
+
+</div>
