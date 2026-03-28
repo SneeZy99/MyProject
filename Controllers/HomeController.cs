@@ -40,12 +40,12 @@ public class HomeController : Controller
     public IActionResult Login(LoginUserViewModel data)
     {
         string? a, b;
-        a = data.Name;
+        a = data.Username;
         b = data.Password;
         @ViewBag.Name = a;
         @ViewBag.Password = b;
 
-        return RedirectToAction("Index", "Home", new { Name = data.Name, Password = data.Password });
+        return RedirectToAction("Index", "Home", new { Name = data.Username, Password = data.Password });
     }
     public IActionResult Index(string Name, string Password)
     {

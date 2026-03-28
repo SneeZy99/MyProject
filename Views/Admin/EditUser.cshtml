@@ -1,0 +1,66 @@
+@model kkkk11.Models.Db.User
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<div class="container mt-4">
+
+    <h3 class="fw-bold mb-3">Edit User</h3>
+
+    <div class="card shadow-sm border-0 rounded-4">
+        <div class="card-body p-4">
+
+            <form asp-action="EditUser" method="post">
+
+                <input type="hidden" asp-for="UserId" />
+
+                <div class="row g-3">
+
+                    <div class="col-md-6">
+                        <label>Username</label>
+                        <input asp-for="Username" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Full Name</label>
+                        <input asp-for="FullName" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Email</label>
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Phone</label>
+                        <input asp-for="Phone" class="form-control" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Role</label>
+                        <select asp-for="RoleId" class="form-select">
+                            <option value="1">Admin</option>
+                            <option value="2">Receptionist</option>
+                            <option value="3">Staff</option>
+                            <option value="4">User</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label>Password</label>
+                        <input asp-for="Password" type="password" class="form-control" />
+                    </div>
+
+                </div>
+
+                <div class="mt-4 text-end">
+                    <a asp-action="UserList" class="btn btn-secondary">Cancel</a>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>

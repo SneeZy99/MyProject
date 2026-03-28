@@ -2017,11 +2017,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kan\\Documents\\GitHub\\MyProject\\kkkk11.csproj",
+      "projectUniqueName": "C:\\Users\\Kan\\Documents\\New folder\\MyProject\\kkkk11.csproj",
       "projectName": "kkkk11",
-      "projectPath": "C:\\Users\\Kan\\Documents\\GitHub\\MyProject\\kkkk11.csproj",
+      "projectPath": "C:\\Users\\Kan\\Documents\\New folder\\MyProject\\kkkk11.csproj",
       "packagesPath": "C:\\Users\\Kan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kan\\Documents\\GitHub\\MyProject\\obj\\",
+      "outputPath": "C:\\Users\\Kan\\Documents\\New folder\\MyProject\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Kan\\AppData\\Roaming\\NuGet\\NuGet.Config"
