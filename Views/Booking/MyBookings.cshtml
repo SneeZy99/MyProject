@@ -1,0 +1,91 @@
+@model IEnumerable<kkkk11.Models.Db.Booking>
+
+@{
+    ViewBag.Title = "การจองของฉัน";
+}
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+</style>
+
+<div class="container my-5">
+    <h3 class="fw-bold mb-4">📋 การจองของฉัน</h3>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div style="font-size:3rem;">🛏</div>
+            <h5 class="text-muted mt-3">ยังไม่มีการจองห้องพัก</h5>
+            <a asp-controller="Home" asp-action="Index" class="btn mt-3 text-white fw-bold"
+                   style="background:#c9a84c; border-radius:10px; padding:10px 30px;">
+                ดูห้องพัก
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var b in Model)
+            {
+                <div class="col-md-6">
+                    <div class="card border-0 shadow-sm" style="border-radius:16px; overflow:hidden;">
+                        <div class="card-body p-4">
+
+                            <!-- Header -->
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="fw-bold mb-1">@b.Room?.RoomType?.TypeName</h5>
+                                    <span class="text-muted small">ห้องเลขที่ @b.Room?.RoomNumber</span>
+                                </div>
+                                <span class="badge" style="background:@(b.BookingStatus == "Pending" ? "#f0a500" :
+                                                                                                                                                                                                                                          b.BookingStatus == "Confirmed" ? "#28a745" : "#dc3545");
+                                    border-radius:20px; padding:6px 14px; font-size:0.8rem;">
+                                    @b.BookingStatus
+                                </span>
+                            </div>
+
+                            <!-- วันที่ -->
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <div class="p-2 rounded-3 text-center" style="background:#f8f8f8;">
+                                        <div class="text-muted small">📅 Check-in</div>
+                                        <div class="fw-semibold">@b.CheckInDate?.ToString("dd/MM/yyyy")</div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="p-2 rounded-3 text-center" style="background:#f8f8f8;">
+                                        <div class="text-muted small">📅 Check-out</div>
+                                        <div class="fw-semibold">@b.CheckOutDate?.ToString("dd/MM/yyyy")</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ราคาและวันที่จอง -->
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="text-muted small">
+                                    จองเมื่อ @b.CreatedAt?.ToString("dd/MM/yyyy HH:mm")
+                                </span>
+                                <span class="fw-bold" style="color:#c9a84c; font-size:1.1rem;">
+                                    ฿@b.TotalPrice?.ToString("N0")
+                                </span>
+                            </div>
+
+                            @if (b.BookingStatus == "Pending")
+                            {
+                                <form method="post" asp-action="Cancel" onsubmit="return confirm('ยืนยันยกเลิกการจอง?')">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@b.BookingId" />
+                                    <button class="btn btn-sm btn-outline-danger mt-2 w-100" style="border-radius:8px;">
+                                        ยกเลิกการจอง
+                                    </button>
+                                </form>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

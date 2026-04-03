@@ -25,15 +25,16 @@
                 </div>
 
                 <!-- Form -->
-                <form asp-asp-controller="Home" asp-action="Login">
+                <form asp-controller="Home" asp-action="Login" method="post">
+
                     <div class="mb-3">
-                        <input type="text" asp-for="Username"
-                               class="form-conteol form-control form-control-lg rounded-3" placeholder="กรอกชื่อผู้ใช้งาน">
+                        <input type="text" asp-for="Username" class="form-control form-control-lg rounded-3"
+                               placeholder="กรอกชื่อผู้ใช้งาน">
                         </div>
 
                         <div class="mb-4">
-                            <input type="Password" asp-for="Password"
-                                   class="form-conteol form-control form-control-lg rounded-3" placeholder="กรอกรหัสผ่าน">
+                            <input type="password" asp-for="Password" class="form-control form-control-lg rounded-3"
+                                   placeholder="กรอกรหัสผ่าน">
                             </div>
 
                             <div class="d-grid">
@@ -41,11 +42,25 @@
                                     เข้าสู่ระบบ
                                 </button>
                             </div>
-                        </form>
-                        <div class="text-center mt-4">
-                            <a href="#" class="text-decoration-none small">ลืมรหัสผ่าน?</a>
-                        </div>
 
+                        </form>
+
+                        @if (ViewBag.Error != null)
+                        {
+                            <div class="alert alert-danger mt-3">
+                                @ViewBag.Error
+                            </div>
+                        }
+
+                        <!-- ✅ เพิ่มตรงนี้ -->
+                        <hr class="my-4" />
+                        <p class="text-center mb-0">
+                            ยังไม่มีบัญชี?
+                            <a asp-controller="Home" asp-action="Register"
+                                   style="color:#c9a84c; font-weight:600; text-decoration:none;">
+                                สมัครสมาชิก
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>

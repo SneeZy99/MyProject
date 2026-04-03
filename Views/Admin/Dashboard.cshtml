@@ -1,0 +1,211 @@
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+</style>
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold mb-1">📊 Admin Dashboard</h4>
+            <span class="text-muted small">ภาพรวมระบบโรงแรม</span>
+        </div>
+        <span class="text-muted small">@DateTime.Now.ToString("dd/MM/yyyy HH:mm")</span>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="row g-4 mb-4">
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100"
+                 style="border-left: 4px solid #c9a84c !important;">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div style="font-size:2.5rem;">👥</div>
+                    <div>
+                        <div class="text-muted small">ผู้ใช้ทั้งหมด</div>
+                        <div class="fw-bold fs-3">@ViewBag.TotalUsers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100"
+                 style="border-left: 4px solid #4c9ac9 !important;">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div style="font-size:2.5rem;">🛏</div>
+                    <div>
+                        <div class="text-muted small">ห้องพักทั้งหมด</div>
+                        <div class="fw-bold fs-3">@ViewBag.TotalRooms</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100"
+                 style="border-left: 4px solid #9a4cc9 !important;">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div style="font-size:2.5rem;">📋</div>
+                    <div>
+                        <div class="text-muted small">การจองทั้งหมด</div>
+                        <div class="fw-bold fs-3">@ViewBag.TotalBookings</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-0 shadow-sm rounded-4 h-100"
+                 style="border-left: 4px solid #28a745 !important;">
+                <div class="card-body d-flex align-items-center gap-3">
+                    <div style="font-size:2.5rem;">💰</div>
+                    <div>
+                        <div class="text-muted small">รายได้ (Confirmed)</div>
+                        <div class="fw-bold fs-4" style="color:#28a745;">
+                            ฿@((decimal)ViewBag.TotalRevenue)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- Booking Status -->
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <h6 class="fw-bold mb-4">📊 สถานะการจอง</h6>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted small">Pending</span>
+                            <span class="fw-semibold text-warning">@ViewBag.Pending</span>
+                        </div>
+                        @{
+                            int total = (int)ViewBag.TotalBookings;
+                            int pending = (int)ViewBag.Pending;
+                            int confirmed = (int)ViewBag.Confirmed;
+                            int cancelled = (int)ViewBag.Cancelled;
+                            int pPct   = total > 0 ? pending * 100 / total : 0;
+                            int coPct  = total > 0 ? confirmed * 100 / total : 0;
+                            int caPct  = total > 0 ? cancelled * 100 / total : 0;
+                        }
+                        <div class="progress" style="height:8px; border-radius:10px;">
+                            <div class="progress-bar bg-warning" style="width:@pPct%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted small">Confirmed</span>
+                            <span class="fw-semibold text-success">@ViewBag.Confirmed</span>
+                        </div>
+                        <div class="progress" style="height:8px; border-radius:10px;">
+                            <div class="progress-bar bg-success" style="width:@coPct%"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="text-muted small">Cancelled</span>
+                            <span class="fw-semibold text-danger">@ViewBag.Cancelled</span>
+                        </div>
+                        <div class="progress" style="height:8px; border-radius:10px;">
+                            <div class="progress-bar bg-danger" style="width:@caPct%"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Bookings -->
+        <div class="col-md-8">
+            <div class="card border-0 shadow-sm rounded-4 h-100">
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h6 class="fw-bold mb-0">🕐 การจองล่าสุด</h6>
+                        <a asp-action="BookingList" class="btn btn-sm btn-outline-secondary rounded-pill">
+                            ดูทั้งหมด
+                        </a>
+                    </div>
+
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light text-secondary small">
+                            <tr>
+                                <th>ผู้จอง</th>
+                                <th>ห้อง</th>
+                                <th>Check-in</th>
+                                <th>ราคา</th>
+                                <th>สถานะ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var b in (List<kkkk11.Models.Db.Booking>)ViewBag.RecentBookings)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="fw-semibold small">@b.User?.FullName</div>
+                                        <div class="text-muted" style="font-size:0.75rem;">@b.User?.Username</div>
+                                    </td>
+                                    <td class="small">@b.Room?.RoomType?.TypeName</td>
+                                    <td class="small">@b.CheckInDate?.ToString("dd/MM/yy")</td>
+                                    <td class="fw-semibold small" style="color:#c9a84c;">
+                                        ฿@b.TotalPrice?.ToString("N0")
+                                    </td>
+                                    <td>
+                                        <span class="badge rounded-pill"
+                                              style="background:@(b.BookingStatus == "Pending" ? "#f0a500" :
+                                                                  b.BookingStatus == "Confirmed" ? "#28a745" : "#dc3545");
+                                                     font-size:0.75rem; padding:4px 10px;">
+                                            @b.BookingStatus
+                                        </span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Quick Links -->
+    <div class="row g-3 mt-2">
+        <div class="col-md-4">
+            <a asp-action="UserList" class="card border-0 shadow-sm rounded-4 text-decoration-none text-dark">
+                <div class="card-body text-center py-3">
+                    <div style="font-size:1.8rem;">👥</div>
+                    <div class="fw-semibold small mt-1">จัดการผู้ใช้</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a asp-action="BookingList" class="card border-0 shadow-sm rounded-4 text-decoration-none text-dark">
+                <div class="card-body text-center py-3">
+                    <div style="font-size:1.8rem;">📋</div>
+                    <div class="fw-semibold small mt-1">จัดการการจอง</div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a asp-controller="Room" asp-action="Index" class="card border-0 shadow-sm rounded-4 text-decoration-none text-dark">
+                <div class="card-body text-center py-3">
+                    <div style="font-size:1.8rem;">🛏</div>
+                    <div class="fw-semibold small mt-1">ดูห้องพัก</div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>

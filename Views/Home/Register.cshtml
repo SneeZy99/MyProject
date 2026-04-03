@@ -1,5 +1,7 @@
-﻿@{
-    ViewData["Title"] = "Register";
+﻿@model kkkk11.ViewModels.RegisterViewModel
+
+@{
+    ViewBag.Title = "สมัครสมาชิก";
 }
 
 @{
@@ -9,88 +11,68 @@
 <style>
     body {
         background:
-            linear-gradient(rgba(0, 0, 0, 0.45),
-                rgba(0, 0, 0, 0.45)),
             url('/images/hotel.jpg') no-repeat center center fixed;
         background-size: cover;
     }
 </style>
 
-<div class="container min-vh-100 d-flex align-items-center justify-content-center">
-    <div class="row w-100 justify-content-center">
-        <div class="col-sm-9 col-md-7 col-lg-6 col-xl-5">
+<div class="container" style="max-width:500px; margin:60px auto;">
+    <div class="card shadow border-0" style="border-radius:16px;">
+        <div class="card-body p-5">
+            <h3 class="text-center fw-bold mb-4">📝 สมัครสมาชิก</h3>
 
-            <div class="card shadow-lg border-0 rounded-4">
-                <div class="card-body p-4 p-md-5">
+            <form asp-action="Register" method="post">
+                @Html.AntiForgeryToken()
 
-                    <!-- Title -->
-                    <div class="text-center mb-4">
-                        <h3 class="fw-bold mb-1">📝 สมัครสมาชิก</h3>
-                        <p class="text-muted small">
-                            สร้างบัญชีเพื่อเข้าใช้งานระบบ
-                        </p>
-                    </div>
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="display:@(ViewData.ModelState.IsValid ? "none" : "block")"></div>
 
-                    <!-- Form -->
-                    <form asp-controller="Account" asp-action="Tes3">
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">ชื่อผู้ใช้</label>
-                            <input type="text"                           class="form-control form-control-lg rounded-3"
-                                   placeholder="กรอกชื่อของคุณ">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">อีเมล</label>
-                            <input type="email"             class="form-control form-control-lg rounded-3"
-                                   placeholder="example@email.com">
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">เบอร์โทรศัพท์</label>
-                            <div class="input-group input-group-lg">
-                                <select class="form-select rounded-start-3"    style="max-width: 110px;">
-                                    <option value="+66">+66</option>
-                                    <option value="+1">+1</option>
-                                    <option value="+81">+81</option>
-                                </select>
-                                <input type="tel"                 class="form-control rounded-end-3"                               placeholder="0812345678">
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-semibold">รหัสผ่าน</label>
-                            <input type="password"              class="form-control form-control-lg rounded-3"
-                                   placeholder="อย่างน้อย 6 ตัวอักษร">
-                        </div>
-
-                        <div class="mb-4">
-                            <label class="form-label fw-semibold">ยืนยันรหัสผ่าน</label>
-                            <input type="password"                          class="form-control form-control-lg rounded-3"
-                                   placeholder="กรอกรหัสผ่านอีกครั้ง">
-                        </div>
-
-                        <div class="d-grid">
-                            <button type="submit"             class="btn btn-primary btn-lg rounded-3">
-                                สมัครสมาชิก
-                            </button>
-                        </div>
-
-                    </form>
-
-                    <!-- Footer -->
-                    <div class="text-center mt-4">
-                        <span class="text-muted small">
-                            มีบัญชีอยู่แล้ว?
-                            <a asp-controller="Account"                   asp-action="Login"                         class="text-decoration-none fw-semibold">
-                                เข้าสู่ระบบ
-                            </a>
-                        </span>
-                    </div>
-
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">ชื่อ-นามสกุล</label>
+                    <input asp-for="FullName" class="form-control" />
+                    <span asp-validation-for="FullName" class="text-danger small"></span>
                 </div>
-            </div>
 
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Username</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">เบอร์โทร</label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">รหัสผ่าน</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">ยืนยันรหัสผ่าน</label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn w-100 fw-bold text-white"
+                        style="background:#c9a84c; border-radius:10px; padding:12px;">
+                    สมัครสมาชิก
+                </button>
+            </form>
+
+            <hr />
+            <p class="text-center mb-0">
+                มีบัญชีแล้ว?
+                <a asp-action="Login" style="color:#c9a84c;">เข้าสู่ระบบ</a>
+            </p>
         </div>
     </div>
 </div>

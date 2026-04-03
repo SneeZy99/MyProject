@@ -1,0 +1,89 @@
+@model IEnumerable<kkkk11.Models.Db.Room>
+
+@{
+    ViewBag.Title = "ค้นหาห้องพัก";
+}
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+</style>
+
+<div class="container my-5">
+
+    <!-- ผลการค้นหา -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h4 class="fw-bold mb-1">🛏 ห้องพักที่ว่าง</h4>
+            @if (ViewBag.CheckIn != null)
+            {
+                <span class="text-muted small">
+                    📅 @DateOnly.Parse(ViewBag.CheckIn).ToString("dd/MM/yyyy")
+                    → @DateOnly.Parse(ViewBag.CheckOut).ToString("dd/MM/yyyy")
+                    &nbsp;👥 @ViewBag.Guests คน
+                </span>
+            }
+        </div>
+        <span class="badge rounded-pill bg-secondary px-3 py-2">
+            พบ @Model.Count() ห้อง
+        </span>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <div style="font-size:3rem;">😔</div>
+            <h5 class="text-muted mt-3">ไม่มีห้องว่างในช่วงเวลาที่เลือก</h5>
+            <a asp-controller="Home" asp-action="Index"
+               class="btn mt-3 text-white fw-bold"
+               style="background:#c9a84c; border-radius:10px; padding:10px 30px;">
+                ค้นหาใหม่
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var room in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm room-card" style="border-radius:18px; overflow:hidden;">
+                        <img src="/images/@(room.RoomId).jpg"
+                             style="height:220px; object-fit:cover;"
+                             onerror="this.src='https://placehold.co/400x220/8B7355/white?text=@room.RoomType?.TypeName'" />
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="fw-bold mb-0">@room.RoomType?.TypeName</h5>
+                                <span class="badge"
+                                      style="background:@(room.RoomStatus?.StatusName == "Available" ? "#28a745" : "#dc3545");
+                                             border-radius:20px; font-size:0.75rem;">
+                                    @room.RoomStatus?.StatusName
+                                </span>
+                            </div>
+
+                            <p class="text-muted small mb-3">@room.RoomType?.Description</p>
+
+                            <div class="d-flex justify-content-between mb-3">
+                                <span class="text-muted small">👥 @room.RoomType?.Capacity คน</span>
+                                <span class="fw-bold" style="color:#c9a84c;">
+                                    ฿@room.RoomType?.PricePerNight?.ToString("N0") / คืน
+                                </span>
+                            </div>
+
+                            <a asp-controller="Room" asp-action="Details" asp-route-id="@room.RoomId"
+                               class="btn w-100 text-white fw-bold"
+                               style="background:#c9a84c; border-radius:10px;">
+                                ดูรายละเอียด
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+<style>
+    .room-card { transition: .3s; }
+    .room-card:hover { transform: translateY(-6px); box-shadow: 0 15px 30px rgba(0,0,0,.15) !important; }
+</style>

@@ -34,12 +34,36 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Admin/BookingList.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQm9va2luZ0xpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Admin/Dashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Kan/Documents/New folder/MyProject/Views/Admin/EditUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFVzZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Kan/Documents/New folder/MyProject/Views/Admin/Userlist.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlcmxpc3QuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Booking/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Booking/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xpbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Booking/MyBookings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xNeUJvb2tpbmdzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Booking/Success.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xTdWNjZXNzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Kan/Documents/New folder/MyProject/Views/Home/Index.cshtml]
@@ -56,6 +80,26 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Kan/Documents/New folder/MyProject/Views/Home/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxSZWdpc3Rlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Room/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Room/index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxpbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Room/Large.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxMYXJnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Room/Medium.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxNZWRpdW0uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Kan/Documents/New folder/MyProject/Views/Room/Small.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUm9vbVxTbWFsbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Kan/Documents/New folder/MyProject/Views/Shared/Error.cshtml]

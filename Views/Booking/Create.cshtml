@@ -1,0 +1,95 @@
+@model kkkk11.ViewModels.BookingViewModel
+
+@{
+    ViewBag.Title = "จองห้องพัก";
+}
+
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+</style>
+
+<div class="container my-5" style="max-width:600px;">
+    <div class="card shadow border-0" style="border-radius:16px;">
+        <div class="card-body p-5">
+            <h3 class="fw-bold mb-1">📋 จองห้องพัก</h3>
+            <p class="text-muted mb-4">@Model.RoomName — ฿@Model.PricePerNight?.ToString("N0") / คืน</p>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger">
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <div>@error.ErrorMessage</div>
+                    }
+                </div>
+            }
+
+            <form method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="RoomId" value="@Model.RoomId" />
+                <input type="hidden" name="RoomName" value="@Model.RoomName" />
+                <input type="hidden" name="PricePerNight" value="@Model.PricePerNight" />
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">📅 วันเช็คอิน</label>
+                    <input type="date" name="CheckInDate" class="form-control"
+                           value="@Model.CheckInDate.ToString("yyyy-MM-dd")"
+                           min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">📅 วันเช็คเอาท์</label>
+                    <input type="date" name="CheckOutDate" class="form-control"
+                           value="@Model.CheckOutDate.ToString("yyyy-MM-dd")"
+                           min="@DateTime.Today.AddDays(1).ToString("yyyy-MM-dd")" required />
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">👥 จำนวนผู้เข้าพัก</label>
+                    <select name="Guests" class="form-select">
+                        <option value="1">1 คน</option>
+                        <option value="2">2 คน</option>
+                        <option value="3">3 คน</option>
+                        <option value="4">4 คน</option>
+                    </select>
+                </div>
+
+                <!-- สรุปราคา -->
+                <div class="p-3 rounded-3 mb-4" style="background:#f8f8f8;">
+                    <div class="d-flex justify-content-between">
+                        <span class="text-muted">ราคาต่อคืน</span>
+                        <span>฿@Model.PricePerNight?.ToString("N0")</span>
+                    </div>
+                    <div class="d-flex justify-content-between fw-bold mt-2" id="totalRow">
+                        <span>ราคารวม</span>
+                        <span id="totalPrice">฿@Model.PricePerNight?.ToString("N0")</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn w-100 fw-bold text-white"
+                        style="background:#c9a84c; border-radius:10px; padding:12px;">
+                    ✅ ยืนยันการจอง
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const price = @Model.PricePerNight;
+    const checkIn  = document.querySelector('[name=CheckInDate]');
+    const checkOut = document.querySelector('[name=CheckOutDate]');
+    const totalEl  = document.getElementById('totalPrice');
+
+    function updateTotal() {
+        const d1 = new Date(checkIn.value);
+        const d2 = new Date(checkOut.value);
+        const nights = Math.max(0, (d2 - d1) / 86400000);
+        totalEl.textContent = '฿' + (price * nights).toLocaleString();
+    }
+
+    checkIn.addEventListener('change', updateTotal);
+    checkOut.addEventListener('change', updateTotal);
+</script>
