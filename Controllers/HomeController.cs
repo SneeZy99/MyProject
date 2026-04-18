@@ -32,6 +32,15 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        if (User.IsInRole("Admin"))
+            return RedirectToAction("Dashboard", "Admin");
+
+        if (User.IsInRole("Receptionist"))
+            return RedirectToAction("BookingList", "Receptionist");
+
+        if (User.IsInRole("Staff"))
+            return RedirectToAction("DailyReport", "Staff");
+
         return View();
     }
 
@@ -57,7 +66,6 @@ public class HomeController : Controller
     [AllowAnonymous]
     public async Task<IActionResult> Login(LoginUserViewModel data)
     {
-        // ✅ แก้ bracket ที่ผิด — Include และ FirstOrDefault แยกกัน
         var user = _context.Users
             .Include(u => u.Role)
             .FirstOrDefault(u =>
@@ -69,7 +77,8 @@ public class HomeController : Controller
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role?.RoleName ?? "Customer")
+                new Claim(ClaimTypes.Role, user.Role?.RoleName ?? "Customer"),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
             };
 
             var identity = new ClaimsIdentity(
@@ -95,14 +104,12 @@ public class HomeController : Controller
     {
         if (!ModelState.IsValid) return View(model);
 
-        // เช็ค Username ซ้ำ
         if (_context.Users.Any(u => u.Username == model.Username))
         {
             ModelState.AddModelError("Username", "Username นี้ถูกใช้แล้ว");
             return View(model);
         }
 
-        // เช็ค Email ซ้ำ
         if (_context.Users.Any(u => u.Email == model.Email))
         {
             ModelState.AddModelError("Email", "Email นี้ถูกใช้แล้ว");
@@ -115,8 +122,8 @@ public class HomeController : Controller
             FullName = model.FullName,
             Email = model.Email,
             Phone = model.Phone,
-            Password = model.Password,  // ควรทำ hash ในอนาคต
-            RoleId = 4,               // 4 = Customer/User
+            Password = model.Password,
+            RoleId = 2,
             Status = "Active"
         };
 
@@ -135,4 +142,7 @@ public class HomeController : Controller
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
         });
     }
+
+
+
 }

@@ -10,7 +10,7 @@
 </style>
 
 <div class="container my-5">
-    <h3 class="fw-bold mb-4">📋 การจองของฉัน</h3>
+    <h3 class="fw-bold mb-4"> การจองของฉัน</h3>
 
     @if (!Model.Any())
     {
@@ -49,13 +49,13 @@
                             <div class="row g-2 mb-3">
                                 <div class="col-6">
                                     <div class="p-2 rounded-3 text-center" style="background:#f8f8f8;">
-                                        <div class="text-muted small">📅 Check-in</div>
+                                        <div class="text-muted small">Check-in</div>
                                         <div class="fw-semibold">@b.CheckInDate?.ToString("dd/MM/yyyy")</div>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="p-2 rounded-3 text-center" style="background:#f8f8f8;">
-                                        <div class="text-muted small">📅 Check-out</div>
+                                        <div class="text-muted small">Check-out</div>
                                         <div class="fw-semibold">@b.CheckOutDate?.ToString("dd/MM/yyyy")</div>
                                     </div>
                                 </div>

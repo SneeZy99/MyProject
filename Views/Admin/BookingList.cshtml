@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Booking Management";
 }
+
+@{ Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+
 <style>
     body {
         background-color: #f4f6f9;
@@ -78,40 +81,23 @@
                                     @b.CreatedAt?.ToString("dd/MM/yyyy HH:mm")
                                 </td>
                                 <td>
-                                    <span class="badge rounded-pill"
-                                          style="background:@(b.BookingStatus == "Pending" ? "#f0a500" :
-                                                              b.BookingStatus == "Confirmed" ? "#28a745" : "#dc3545");
-                                                 padding:6px 12px;">
+                                    <span class="badge rounded-pill" style="background:@(b.BookingStatus == "Pending" ? "#f0a500" :
+                                                                                                                                                                           b.BookingStatus == "Confirmed" ? "#28a745" : "#dc3545");
+                                        padding:6px 12px;">
                                         @b.BookingStatus
                                     </span>
                                 </td>
                                 <td>
                                     <div class="d-flex gap-1 justify-content-center">
-                                        <!-- Confirm -->
-                                        @if (b.BookingStatus == "Pending")
+                                        @if (b.BookingStatus != "Cancelled")
                                         {
-                                            <form method="post" asp-action="UpdateStatus">
+                                            <form method="post" asp-action="CancelBooking"
+                                                  onsubmit="return confirm('ยืนยันยกเลิกการจอง?')">
                                                 @Html.AntiForgeryToken()
-                                                <input type="hidden" name="bookingId" value="@b.BookingId" />
-                                                <input type="hidden" name="status" value="Confirmed" />
-                                                <button class="btn btn-success btn-sm" title="Confirm">Confirm</button>
-                                            </form>
-
-                                            <form method="post" asp-action="UpdateStatus">
-                                                @Html.AntiForgeryToken()
-                                                <input type="hidden" name="bookingId" value="@b.BookingId" />
-                                                <input type="hidden" name="status" value="Cancelled" />
-                                                <button class="btn btn-warning btn-sm" title="Cancel">Cancel</button>
+                                                <input type="hidden" name="id" value="@b.BookingId" />
+                                                <button class="btn btn-warning btn-sm">Cancel</button>
                                             </form>
                                         }
-
-                                        <!-- Delete -->
-                                        <form method="post" asp-action="DeleteBooking"
-                                              onsubmit="return confirm('ลบการจองนี้?')">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="id" value="@b.BookingId" />
-                                            <button class="btn btn-danger btn-sm" title="Delete">Delete</button>
-                                        </form>
                                     </div>
                                 </td>
                             </tr>

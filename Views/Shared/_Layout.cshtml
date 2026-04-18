@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -9,77 +8,45 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/kkkk11.styles.css" asp-append-version="true" />
 </head>
-
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light navbar-custom box-shadow">
+        <nav class="navbar navbar-expand-sm navbar-light navbar-custom box-shadow">
             <div class="container">
-                <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index">🏨 Hotel
-                    Booking</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
-                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="navbar-collapse collapse d-sm-inline-flex ">
-                        <ul class="navbar-nav ms-auto">
-
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">
-                                        📊 Dashboard
-                                    </a>
-                                </li>
-                            }
-                            
-                            @if (User.Identity?.IsAuthenticated == true)
-                            {
-                                <a class="nav-link" asp-controller="Booking" asp-action="MyBookings">
-                                    📋 การจองของฉัน
-                                </a>
-                            }
-
-                            @if (User.Identity!.IsAuthenticated)
-                            {
-                                <li class="nav-item">
-                                    <span class="nav-link">@User.Identity.Name</span>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Home" asp-action="Logout">Logout</a>
-                                </li>
-                            }
-
-                            else
-                            {
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Home" asp-action="Login">
-                                        Login
-                                    </a>
-                                </li>
-
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="Home" asp-action="Register">
-                                        Register
-                                    </a>
-                                </li>
-                            }
-
-                        </ul>
-                    </div>
+                <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">Hotel Booking</a>
+                <div class="navbar-collapse collapse d-sm-inline-flex">
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity!.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Booking" asp-action="MyBookings">การจองของฉัน</a>
+                            </li>
+                            <li class="nav-item">
+                                <span class="nav-link fw-bold" style="color:#c9a84c;">@User.Identity.Name</span>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-danger" asp-controller="Home" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Home" asp-action="Register">Register</a>
+                            </li>
+                        }
+                    </ul>
                 </div>
-            </nav>
-        </header>
-
-        <div class="container">
-            <main role="main" class="pb-3">
-                @RenderBody()
-            </main>
-        </div>
-
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        @await RenderSectionAsync("Scripts", required: false)
-    </body>
-
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">@RenderBody()</main>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
 </html>

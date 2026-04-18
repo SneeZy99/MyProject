@@ -18,7 +18,7 @@
             @if (ViewBag.CheckIn != null)
             {
                 <span class="text-muted small">
-                    📅 @DateOnly.Parse(ViewBag.CheckIn).ToString("dd/MM/yyyy")
+                     @DateOnly.Parse(ViewBag.CheckIn).ToString("dd/MM/yyyy")
                     → @DateOnly.Parse(ViewBag.CheckOut).ToString("dd/MM/yyyy")
                     &nbsp;👥 @ViewBag.Guests คน
                 </span>
@@ -32,7 +32,7 @@
     @if (!Model.Any())
     {
         <div class="text-center py-5">
-            <div style="font-size:3rem;">😔</div>
+            <div style="font-size:3rem;"></div>
             <h5 class="text-muted mt-3">ไม่มีห้องว่างในช่วงเวลาที่เลือก</h5>
             <a asp-controller="Home" asp-action="Index"
                class="btn mt-3 text-white fw-bold"
@@ -48,9 +48,10 @@
             {
                 <div class="col-md-4">
                     <div class="card border-0 shadow-sm room-card" style="border-radius:18px; overflow:hidden;">
-                        <img src="/images/@(room.RoomId).jpg"
-                             style="height:220px; object-fit:cover;"
-                             onerror="this.src='https://placehold.co/400x220/8B7355/white?text=@room.RoomType?.TypeName'" />
+                        <img src="/images/@(room.RoomTypeId).jpg"
+                        style="height:220px; object-fit:cover;"
+                        onerror="this.src='https://placehold.co/400x220/8B7355/white?text=@room.RoomType?.TypeName'"
+     alt="@room.RoomType?.TypeName" />
                         <div class="card-body p-4">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <h5 class="fw-bold mb-0">@room.RoomType?.TypeName</h5>

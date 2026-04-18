@@ -1,0 +1,74 @@
+@{
+    ViewBag.Title = "รายงานประจำวัน";
+}
+
+@{ Layout = "~/Views/Shared/_StaffLayout.cshtml"; }
+
+<div class="container mt-4">
+    <h4 class="fw-bold mb-1">📅 รายงาน Check-in / Check-out</h4>
+    <p class="text-muted mb-4">วันที่ @ViewBag.Today</p>
+
+    <div class="row g-4">
+
+        <!-- CHECK-IN -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3" style="color:#28a745;">
+                        🟢 Check-in วันนี้
+                        <span class="badge bg-success ms-2">
+                            @(((List<kkkk11.Models.Db.Booking>)ViewBag.CheckIns).Count)
+                        </span>
+                    </h5>
+
+                    @if (((List<kkkk11.Models.Db.Booking>)ViewBag.CheckIns).Count == 0)
+                    {
+                        <p class="text-muted text-center py-3">ไม่มี Check-in วันนี้</p>
+                    }
+                    else
+                    {
+                        @foreach (var b in (List<kkkk11.Models.Db.Booking>)ViewBag.CheckIns)
+                        {
+                            <div class="p-3 rounded-3 mb-2" style="background:#f8f8f8;">
+                                <div class="fw-semibold">@b.User?.FullName</div>
+                                <div class="text-muted small">@b.Room?.RoomType?.TypeName — ห้อง @b.Room?.RoomNumber</div>
+                                <div class="text-muted small">Check-out: @b.CheckOutDate?.ToString("dd/MM/yyyy")</div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- CHECK-OUT -->
+        <div class="col-md-6">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-body p-4">
+                    <h5 class="fw-bold mb-3" style="color:#dc3545;">
+                        🔴 Check-out วันนี้
+                        <span class="badge bg-danger ms-2">
+                            @(((List<kkkk11.Models.Db.Booking>)ViewBag.CheckOuts).Count)
+                        </span>
+                    </h5>
+
+                    @if (((List<kkkk11.Models.Db.Booking>)ViewBag.CheckOuts).Count == 0)
+                    {
+                        <p class="text-muted text-center py-3">ไม่มี Check-out วันนี้</p>
+                    }
+                    else
+                    {
+                        @foreach (var b in (List<kkkk11.Models.Db.Booking>)ViewBag.CheckOuts)
+                        {
+                            <div class="p-3 rounded-3 mb-2" style="background:#f8f8f8;">
+                                <div class="fw-semibold">@b.User?.FullName</div>
+                                <div class="text-muted small">@b.Room?.RoomType?.TypeName — ห้อง @b.Room?.RoomNumber</div>
+                                <div class="text-muted small">Check-in: @b.CheckInDate?.ToString("dd/MM/yyyy")</div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

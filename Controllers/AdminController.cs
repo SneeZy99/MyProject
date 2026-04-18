@@ -23,9 +23,6 @@ public class AdminController : Controller
         return View(users);
     }
 
-
-
-
     [HttpGet]
     public IActionResult AddUser()
     {
@@ -114,40 +111,40 @@ public class AdminController : Controller
         return RedirectToAction("BookingList");
     }
 
-    // POST: /Admin/DeleteBooking
+    // CancelBooking
     [HttpPost]
-    public IActionResult DeleteBooking(int id)
+    public IActionResult CancelBooking(int id)
     {
         var booking = _context.Bookings.Find(id);
         if (booking == null) return NotFound();
 
-        _context.Bookings.Remove(booking);
+        booking.BookingStatus = "Cancelled";  
         _context.SaveChanges();
 
         return RedirectToAction("BookingList");
     }
 
     public IActionResult Dashboard()
-{
-    ViewBag.TotalUsers    = _context.Users.Count();
-    ViewBag.TotalRooms    = _context.Rooms.Count();
-    ViewBag.TotalBookings = _context.Bookings.Count();
-    ViewBag.TotalRevenue  = _context.Bookings
-        .Where(b => b.BookingStatus == "Confirmed")
-        .Sum(b => b.TotalPrice) ?? 0;
+    {
+        ViewBag.TotalUsers = _context.Users.Count();
+        ViewBag.TotalRooms = _context.Rooms.Count();
+        ViewBag.TotalBookings = _context.Bookings.Count();
+        ViewBag.TotalRevenue = _context.Bookings
+            .Where(b => b.BookingStatus == "Confirmed")
+            .Sum(b => b.TotalPrice) ?? 0;
 
-    ViewBag.Pending   = _context.Bookings.Count(b => b.BookingStatus == "Pending");
-    ViewBag.Confirmed = _context.Bookings.Count(b => b.BookingStatus == "Confirmed");
-    ViewBag.Cancelled = _context.Bookings.Count(b => b.BookingStatus == "Cancelled");
+        ViewBag.Pending = _context.Bookings.Count(b => b.BookingStatus == "Pending");
+        ViewBag.Confirmed = _context.Bookings.Count(b => b.BookingStatus == "Confirmed");
+        ViewBag.Cancelled = _context.Bookings.Count(b => b.BookingStatus == "Cancelled");
 
-    // การจอง 5 รายการล่าสุด
-    ViewBag.RecentBookings = _context.Bookings
-        .Include(b => b.User)
-        .Include(b => b.Room).ThenInclude(r => r!.RoomType)
-        .OrderByDescending(b => b.CreatedAt)
-        .Take(5)
-        .ToList();
+        // การจอง 5 รายการล่าสุด
+        ViewBag.RecentBookings = _context.Bookings
+            .Include(b => b.User)
+            .Include(b => b.Room).ThenInclude(r => r!.RoomType)
+            .OrderByDescending(b => b.CreatedAt)
+            .Take(5)
+            .ToList();
 
-    return View();
-}
+        return View();
+    }
 }

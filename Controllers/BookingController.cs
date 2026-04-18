@@ -67,7 +67,7 @@ public class BookingController : Controller
         _context.Bookings.Add(booking);
         _context.SaveChanges();
 
-        return RedirectToAction("Success");
+        return RedirectToAction("Payment", new { bookingId = booking.BookingId });
     }
 
     public IActionResult Success()
@@ -91,4 +91,60 @@ public class BookingController : Controller
 
         return View(bookings);
     }
+
+    // GET: /Booking/Payment/5
+public IActionResult Payment(int bookingId)
+{
+    var booking = _context.Bookings
+        .Include(b => b.Room).ThenInclude(r => r!.RoomType)
+        .FirstOrDefault(b => b.BookingId == bookingId);
+
+    if (booking == null) return NotFound();
+
+    var vm = new PaymentViewModel
+    {
+        BookingId     = booking.BookingId,
+        Amount        = booking.TotalPrice ?? 0,
+        RoomName      = booking.Room?.RoomType?.TypeName,
+        CheckIn       = booking.CheckInDate?.ToString("dd/MM/yyyy"),
+        CheckOut      = booking.CheckOutDate?.ToString("dd/MM/yyyy"),
+        PaymentMethod = "Cash"
+    };
+
+    return View(vm);
+}
+
+// POST: /Booking/Payment
+[HttpPost]
+public IActionResult Payment(PaymentViewModel vm)
+{
+    var payment = new kkkk11.Models.Db.Payment
+    {
+        BookingId     = vm.BookingId,
+        Amount        = vm.Amount,
+        PaymentMethod = vm.PaymentMethod,
+        PaymentStatus = "Paid",
+        PaymentDate   = DateTime.Now
+    };
+
+    _context.Payments.Add(payment);
+
+    // อัปเดต booking status เป็น Confirmed
+    var booking = _context.Bookings.Find(vm.BookingId);
+    if (booking != null) booking.BookingStatus = "Confirmed";
+
+    _context.SaveChanges();
+
+    return RedirectToAction("PaymentSuccess", new { bookingId = vm.BookingId });
+}
+
+// GET: /Booking/PaymentSuccess
+public IActionResult PaymentSuccess(int bookingId)
+{
+    var booking = _context.Bookings
+        .Include(b => b.Room).ThenInclude(r => r!.RoomType)
+        .FirstOrDefault(b => b.BookingId == bookingId);
+
+    return View(booking);
+}
 }

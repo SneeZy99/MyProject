@@ -1,0 +1,101 @@
+@model kkkk11.ViewModels.PaymentViewModel
+
+@{
+    ViewBag.Title = "ชำระเงิน";
+}
+
+<div class="container my-5" style="max-width:600px;">
+    <div class="card border-0 shadow" style="border-radius:16px;">
+        <div class="card-body p-5">
+
+            <h3 class="fw-bold mb-1 text-center">💳 ชำระเงิน</h3>
+            <p class="text-muted text-center mb-4">เลือกวิธีการชำระเงิน</p>
+
+            <!-- สรุปการจอง -->
+            <div class="p-3 rounded-3 mb-4" style="background:#f8f8f8;">
+                <h6 class="fw-bold mb-3">📋 สรุปการจอง</h6>
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted">ห้อง</span>
+                    <span class="fw-semibold">@Model.RoomName</span>
+                </div>
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted">Check-in</span>
+                    <span>@Model.CheckIn</span>
+                </div>
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="text-muted">Check-out</span>
+                    <span>@Model.CheckOut</span>
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between fw-bold">
+                    <span>ยอดชำระ</span>
+                    <span style="color:#c9a84c; font-size:1.2rem;">
+                        ฿@Model.Amount.ToString("N0")
+                    </span>
+                </div>
+            </div>
+
+            <!-- เลือกวิธีชำระ -->
+            <form method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="BookingId" value="@Model.BookingId" />
+                <input type="hidden" name="Amount" value="@Model.Amount" />
+                <input type="hidden" name="RoomName" value="@Model.RoomName" />
+                <input type="hidden" name="CheckIn" value="@Model.CheckIn" />
+                <input type="hidden" name="CheckOut" value="@Model.CheckOut" />
+
+                <h6 class="fw-bold mb-3">เลือกวิธีการชำระเงิน</h6>
+
+                <div class="row g-3 mb-4">
+
+                    <div class="col-6">
+                        <input type="radio" class="btn-check" name="PaymentMethod"
+                               id="cash" value="Cash" checked />
+                        <label class="btn btn-outline-secondary w-100 py-3" for="cash"
+                               style="border-radius:12px;">
+                            <div style="font-size:1.8rem;">💵</div>
+                            <div class="fw-semibold mt-1">เงินสด</div>
+                        </label>
+                    </div>
+
+                    <div class="col-6">
+                        <input type="radio" class="btn-check" name="PaymentMethod"
+                               id="qr" value="QR Code" />
+                        <label class="btn btn-outline-secondary w-100 py-3" for="qr"
+                               style="border-radius:12px;">
+                            <div style="font-size:1.8rem;">📱</div>
+                            <div class="fw-semibold mt-1">QR Code</div>
+                        </label>
+                    </div>
+
+                    <div class="col-6">
+                        <input type="radio" class="btn-check" name="PaymentMethod"
+                               id="credit" value="Credit Card" />
+                        <label class="btn btn-outline-secondary w-100 py-3" for="credit"
+                               style="border-radius:12px;">
+                            <div style="font-size:1.8rem;">💳</div>
+                            <div class="fw-semibold mt-1">บัตรเครดิต</div>
+                        </label>
+                    </div>
+
+                    <div class="col-6">
+                        <input type="radio" class="btn-check" name="PaymentMethod"
+                               id="transfer" value="Bank Transfer" />
+                        <label class="btn btn-outline-secondary w-100 py-3" for="transfer"
+                               style="border-radius:12px;">
+                            <div style="font-size:1.8rem;">🏦</div>
+                            <div class="fw-semibold mt-1">โอนเงิน</div>
+                        </label>
+                    </div>
+
+                </div>
+
+                <button type="submit" class="btn w-100 fw-bold text-white"
+                        style="background:#c9a84c; border-radius:10px; padding:12px;">
+                    ✅ ยืนยันการชำระเงิน
+                </button>
+            </form>
+
+        </div>
+    </div>
+</div>
