@@ -1,91 +1,103 @@
 @model IEnumerable<kkkk11.Models.Db.Booking>
 
 @{
-    ViewBag.Title = "ตรวจสอบการจอง";
+    ViewData["Title"] = "Booking Management";
 }
 
 @{ Layout = "~/Views/Shared/_ReceptionistLayout.cshtml"; }
 
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+</style>
+
 <div class="container mt-4">
     <div class="card shadow border-0 rounded-4">
         <div class="card-body p-4">
-
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h4 class="fw-bold mb-1">ตรวจสอบการจอง</h4>
-                    <span class="text-muted small">ยืนยันหรือยกเลิกการจองของลูกค้า</span>
+                    <h4 class="fw-bold mb-1">Booking Management</h4>
+                    <span class="text-muted small">จัดการการจองห้องพักทั้งหมด</span>
                 </div>
                 <div class="d-flex gap-3">
                     <div class="text-center px-3 py-2 rounded-3" style="background:#fff8e7;">
-                        <div class="fw-bold text-warning">@Model.Count(b => b.BookingStatus == "Pending")</div>
-                        <div class="text-muted small">Pending</div>
+                        <div class="fw-bold" style="color:#c9a84c;">@Model.Count()</div>
+                        <div class="text-muted small">ทั้งหมด</div>
                     </div>
                     <div class="text-center px-3 py-2 rounded-3" style="background:#f0fff4;">
                         <div class="fw-bold text-success">@Model.Count(b => b.BookingStatus == "Confirmed")</div>
                         <div class="text-muted small">Confirmed</div>
                     </div>
+                    <div class="text-center px-3 py-2 rounded-3" style="background:#fff0f0;">
+                        <div class="fw-bold text-danger">@Model.Count(b => b.BookingStatus == "Cancelled")</div>
+                        <div class="text-muted small">Cancelled</div>
+                    </div>
                 </div>
             </div>
 
-            <table class="table table-hover align-middle text-center">
-                <thead class="bg-light text-secondary">
-                    <tr>
-                        <th>#</th>
-                        <th>ลูกค้า</th>
-                        <th>ห้อง</th>
-                        <th>Check-in</th>
-                        <th>Check-out</th>
-                        <th>ราคา</th>
-                        <th>สถานะ</th>
-                        <th>จัดการ</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var b in Model)
-                    {
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table table-hover align-middle text-center mb-0">
+                    <thead class="bg-light text-secondary">
                         <tr>
-                            <td class="text-muted small">@b.BookingId</td>
-                            <td>
-                                <div class="fw-semibold">@b.User?.FullName</div>
-                                <div class="text-muted small">@b.User?.Username</div>
-                            </td>
-                            <td>
-                                <div class="fw-semibold">@b.Room?.RoomType?.TypeName</div>
-                                <div class="text-muted small">ห้อง @b.Room?.RoomNumber</div>
-                            </td>
-                            <td>@b.CheckInDate?.ToString("dd/MM/yyyy")</td>
-                            <td>@b.CheckOutDate?.ToString("dd/MM/yyyy")</td>
-                            <td class="fw-bold" style="color:#c9a84c;">฿@b.TotalPrice?.ToString("N0")</td>
-                            <td>
-                                <span class="badge rounded-pill"
-                                      style="background:@(b.BookingStatus == "Pending" ? "#f0a500" :
-                                                          b.BookingStatus == "Confirmed" ? "#28a745" : "#dc3545");
-                                             padding:6px 12px;">
-                                    @b.BookingStatus
-                                </span>
-                            </td>
-                            <td>
-                                <div class="d-flex gap-1 justify-content-center">
-                                    @if (b.BookingStatus == "Pending")
-                                    {
-                                        <form method="post" asp-action="Confirm">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="id" value="@b.BookingId" />
-                                            <button class="btn btn-success btn-sm">ยืนยัน</button>
-                                        </form>
-                                        <form method="post" asp-action="Cancel"
-                                              onsubmit="return confirm('ยืนยันยกเลิก?')">
-                                            @Html.AntiForgeryToken()
-                                            <input type="hidden" name="id" value="@b.BookingId" />
-                                            <button class="btn btn-warning btn-sm">ยกเลิก</button>
-                                        </form>
-                                    }
-                                </div>
-                            </td>
+                            <th>#</th>
+                            <th>ผู้จอง</th>
+                            <th>ห้อง</th>
+                            <th>Check-in</th>
+                            <th>Check-out</th>
+                            <th>ราคารวม</th>
+                            <th>วันที่จอง</th>
+                            <th>สถานะ</th>
+                            <th>จัดการ</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var b in Model)
+                        {
+                            <tr>
+                                <td class="text-muted small">@b.BookingId</td>
+                                <td>
+                                    <div class="fw-semibold">@b.User?.FullName</div>
+                                    <div class="text-muted small">@b.User?.Username</div>
+                                </td>
+                                <td>
+                                    <div class="fw-semibold">@b.Room?.RoomType?.TypeName</div>
+                                    <div class="text-muted small">ห้อง @b.Room?.RoomNumber</div>
+                                </td>
+                                <td>@b.CheckInDate?.ToString("dd/MM/yyyy")</td>
+                                <td>@b.CheckOutDate?.ToString("dd/MM/yyyy")</td>
+                                <td class="fw-bold" style="color:#c9a84c;">
+                                    ฿@b.TotalPrice?.ToString("N2")
+                                </td>
+                                <td class="text-muted small">
+                                    @b.CreatedAt?.ToString("dd/MM/yyyy HH:mm")
+                                </td>
+                                <td>
+                                    <span class="badge rounded-pill" style="background:@(b.BookingStatus == "Pending" ? "#f0a500" :
+                                                                                                                                                                           b.BookingStatus == "Confirmed" ? "#28a745" : "#dc3545");
+                                        padding:6px 12px;">
+                                        @b.BookingStatus
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex gap-1 justify-content-center">
+                                        @if (b.BookingStatus != "Cancelled")
+                                        {
+                                            <form method="post" asp-action="CancelBooking"
+                                                  onsubmit="return confirm('ยืนยันยกเลิกการจอง?')">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@b.BookingId" />
+                                                <button class="btn btn-warning btn-sm">Cancel</button>
+                                            </form>
+                                        }
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
 
         </div>
     </div>

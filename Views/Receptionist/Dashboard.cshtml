@@ -2,7 +2,7 @@
     ViewData["Title"] = "Dashboard";
 }
 
-@{ Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+@{ Layout = "~/Views/Shared/_ReceptionistLayout.cshtml"; }
 
 <style>
     body {
@@ -22,8 +22,7 @@
     <div class="row g-4 mb-4">
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm rounded-4 h-100"
-                 style="border-left: 4px solid #c9a84c !important;">
+            <div class="card border-0 shadow-sm rounded-4 h-100" style="border-left: 4px solid #c9a84c !important;">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div style="font-size:2.5rem;"></div>
                     <div>
@@ -35,8 +34,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm rounded-4 h-100"
-                 style="border-left: 4px solid #4c9ac9 !important;">
+            <div class="card border-0 shadow-sm rounded-4 h-100" style="border-left: 4px solid #4c9ac9 !important;">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div style="font-size:2.5rem;"></div>
                     <div>
@@ -48,8 +46,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm rounded-4 h-100"
-                 style="border-left: 4px solid #9a4cc9 !important;">
+            <div class="card border-0 shadow-sm rounded-4 h-100" style="border-left: 4px solid #9a4cc9 !important;">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div style="font-size:2.5rem;"></div>
                     <div>
@@ -61,8 +58,7 @@
         </div>
 
         <div class="col-md-3">
-            <div class="card border-0 shadow-sm rounded-4 h-100"
-                 style="border-left: 4px solid #28a745 !important;">
+            <div class="card border-0 shadow-sm rounded-4 h-100" style="border-left: 4px solid #28a745 !important;">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div style="font-size:2.5rem;"></div>
                     <div>
@@ -87,13 +83,11 @@
 
                     <div class="mb-3">
                         @{
-                            int total = (int)ViewBag.TotalBookings;
-                            int pending = (int)ViewBag.Pending;
-                            int confirmed = (int)ViewBag.Confirmed;
-                            int cancelled = (int)ViewBag.Cancelled;
-                            int pPct   = total > 0 ? pending * 100 / total : 0;
-                            int coPct  = total > 0 ? confirmed * 100 / total : 0;
-                            int caPct  = total > 0 ? cancelled * 100 / total : 0;
+                            int total = ViewBag.TotalBookings != null ? (int)ViewBag.TotalBookings : 0;
+                            int confirmed = ViewBag.Confirmed != null ? (int)ViewBag.Confirmed : 0;
+                            int cancelled = ViewBag.Cancelled != null ? (int)ViewBag.Cancelled : 0;
+                            int coPct = total > 0 ? confirmed * 100 / total : 0;
+                            int caPct = total > 0 ? cancelled * 100 / total : 0;
                         }
                     </div>
 
@@ -156,10 +150,9 @@
                                         ฿@b.TotalPrice?.ToString("N2")
                                     </td>
                                     <td>
-                                        <span class="badge rounded-pill"
-                                              style="background:@(b.BookingStatus == "Pending" ? "#f0a500" :
-                                                                  b.BookingStatus == "Confirmed" ? "#28a745" : "#dc3545");
-                                                     font-size:0.75rem; padding:4px 10px;">
+                                        <span class="badge rounded-pill" style="background:@(b.BookingStatus == "Pending" ? "#f0a500" :
+                                                                                                                                                                                       b.BookingStatus == "Confirmed" ? "#28a745" : "#dc3545");
+                                            font-size:0.75rem; padding:4px 10px;">
                                             @b.BookingStatus
                                         </span>
                                     </td>

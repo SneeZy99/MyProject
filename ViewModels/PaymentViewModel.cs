@@ -8,4 +8,7 @@ public class PaymentViewModel
     public string? CheckIn { get; set; }
     public string? CheckOut { get; set; }
     public string PaymentMethod { get; set; } = "Cash";
+    public string PromoMsg   { get; set; } = "";
+    public decimal Discount  { get; set; }
+    public decimal BasePrice { get; set; }
 }

@@ -1,0 +1,51 @@
+@model kkkk11.Models.Db.User
+
+@{
+    ViewBag.Title = "แก้ไขข้อมูลส่วนตัว";
+}
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+</style>
+
+<div class="container my-5" style="max-width:500px;">
+    <div class="card border-0 shadow" style="border-radius:16px;">
+        <div class="card-body p-5">
+            <h4 class="fw-bold mb-4">แก้ไขข้อมูลส่วนตัว</h4>
+
+            @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">@TempData["Success"]</div>
+            }
+
+            <form method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="UserId" />
+
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">ชื่อ-นามสกุล</label>
+                    <input asp-for="FullName" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">Email</label>
+                    <input asp-for="Email" class="form-control" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-semibold">เบอร์โทร</label>
+                    <input asp-for="Phone" class="form-control" />
+                </div>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">รหัสผ่านใหม่ (ถ้าต้องการเปลี่ยน)</label>
+                    <input asp-for="Password" type="password" class="form-control"
+                           placeholder="เว้นว่างถ้าไม่เปลี่ยน" />
+                </div>
+
+                <button type="submit" class="btn w-100 fw-bold text-white"
+                        style="background:#c9a84c; border-radius:10px; padding:12px;">
+                    บันทึก
+                </button>
+            </form>
+        </div>
+    </div>
+</div>

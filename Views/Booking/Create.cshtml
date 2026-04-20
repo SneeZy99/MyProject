@@ -35,8 +35,8 @@
                 <div class="mb-3">
                     <label class="form-label fw-semibold"> วันเช็คอิน</label>
                     <input type="date" name="CheckInDate" class="form-control"
-                           value="@Model.CheckInDate.ToString("yyyy-MM-dd")"
-                           min="@DateTime.Today.ToString("yyyy-MM-dd")" required />
+                           value="@Model.CheckInDate.ToString("yyyy-MM-dd")" min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           required />
                 </div>
 
                 <div class="mb-3">
@@ -67,10 +67,69 @@
                         <span id="totalPrice">฿@Model.PricePerNight?.ToString("N0")</span>
                     </div>
                 </div>
+                <!-- เพิ่มใต้ส่วนสรุปราคา ก่อนปุ่ม submit -->
+                <div id="promoBox" class="p-3 rounded-3 mb-3" style="background:#fff8e7; display:none;">
+                    <div class="d-flex justify-content-between text-success fw-semibold">
+                        <span id="promoLabel">โปรโมชั่น</span>
+                        <span id="promoDiscount"></span>
+                    </div>
+                </div>
+
+                <!-- แก้ script คำนวณราคา -->
+                <script>
+                                    const price = @Model.PricePerNight;
+                                    const checkIn = document.querySelector('[name=CheckInDate]');
+                                    const checkOut = document.querySelector('[name=CheckOutDate]');
+                                    const totalEl = document.getElementById('totalPrice');
+                                    const promoBox = document.getElementById('promoBox');
+                                    const promoLabel = document.getElementById('promoLabel');
+                                    const promoDiscount = document.getElementById('promoDiscount');
+
+                                    function updateTotal() {
+                                        const d1 = new Date(checkIn.value);
+                                        const d2 = new Date(checkOut.value);
+                                        const nights = Math.max(0, (d2 - d1) / 86400000);
+                                        const base = price * nights;
+
+                                        const today = new Date();
+                                        today.setHours(0, 0, 0, 0);
+                                        const checkInDate = new Date(checkIn.value);
+                                        const daysAhead = Math.floor((checkInDate - today) / 86400000);
+
+                                        let discount = 0;
+                                        let promoText = '';
+
+                                        // Early Bird
+                                        if (daysAhead >= 7) { discount = base * 0.05; promoText = 'Early Bird -5%'; }
+
+                                        // Stay discount
+                                        if (nights >= 10) {
+                                            let d = base * 0.10;
+                                            if (d > discount) { discount = d; promoText = 'Stay 10 Days -10%'; }
+                                        } else if (nights >= 7) {
+                                            let d = base * 0.08;
+                                            if (d > discount) { discount = d; promoText = 'Stay 7 Days -8%'; }
+                                        }
+
+                                        const total = base - discount;
+                                        totalEl.textContent = '฿' + total.toLocaleString();
+
+                                        if (discount > 0) {
+                                            promoBox.style.display = 'block';
+                                            promoLabel.textContent = promoText;
+                                            promoDiscount.textContent = '-฿' + discount.toLocaleString();
+                                        } else {
+                                            promoBox.style.display = 'none';
+                                        }
+                                    }
+
+                                    checkIn.addEventListener('change', updateTotal);
+                                    checkOut.addEventListener('change', updateTotal);
+                </script>
 
                 <button type="submit" class="btn w-100 fw-bold text-white"
                         style="background:#c9a84c; border-radius:10px; padding:12px;">
-                    ✅ ยืนยันการจอง
+                    ยืนยันการจอง
                 </button>
             </form>
         </div>
@@ -79,9 +138,9 @@
 
 <script>
     const price = @Model.PricePerNight;
-    const checkIn  = document.querySelector('[name=CheckInDate]');
+    const checkIn = document.querySelector('[name=CheckInDate]');
     const checkOut = document.querySelector('[name=CheckOutDate]');
-    const totalEl  = document.getElementById('totalPrice');
+    const totalEl = document.getElementById('totalPrice');
 
     function updateTotal() {
         const d1 = new Date(checkIn.value);

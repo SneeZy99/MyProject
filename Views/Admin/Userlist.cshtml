@@ -4,7 +4,9 @@
     ViewData["Title"] = "User Management";
 }
 
-@{ Layout = "~/Views/Shared/_AdminLayout.cshtml"; }
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
 
 <style>
     body {
@@ -78,4 +80,14 @@
 
         </div>
     </div>
+    <script>
+            document.querySelector('input[placeholder*="ค้นหา"]').addEventListener('input', function () {
+                const keyword = this.value.toLowerCase();
+                const rows = document.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const text = row.innerText.toLowerCase();
+                    row.style.display = text.includes(keyword) ? '' : 'none';
+                });
+            });
+    </script>
 </div>

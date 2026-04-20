@@ -4,16 +4,22 @@
     ViewBag.Title = "ชำระเงิน";
 }
 
+<style>
+    body {
+        background-color: #f4f6f9;
+    }
+</style>
+
 <div class="container my-5" style="max-width:600px;">
     <div class="card border-0 shadow" style="border-radius:16px;">
         <div class="card-body p-5">
 
-            <h3 class="fw-bold mb-1 text-center">💳 ชำระเงิน</h3>
+            <h3 class="fw-bold mb-1 text-center">ชำระเงิน</h3>
             <p class="text-muted text-center mb-4">เลือกวิธีการชำระเงิน</p>
 
             <!-- สรุปการจอง -->
             <div class="p-3 rounded-3 mb-4" style="background:#f8f8f8;">
-                <h6 class="fw-bold mb-3">📋 สรุปการจอง</h6>
+                <h6 class="fw-bold mb-3">สรุปการจอง</h6>
                 <div class="d-flex justify-content-between mb-1">
                     <span class="text-muted">ห้อง</span>
                     <span class="fw-semibold">@Model.RoomName</span>
@@ -26,6 +32,20 @@
                     <span class="text-muted">Check-out</span>
                     <span>@Model.CheckOut</span>
                 </div>
+
+                @if (Model.Discount > 0)
+                {
+                    <hr />
+                    <div class="d-flex justify-content-between mb-1">
+                        <span class="text-muted">ราคาก่อนลด</span>
+                        <span>฿@Model.BasePrice.ToString("N0")</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1 fw-semibold text-success">
+                        <span>@Model.PromoMsg</span>
+                        <span>-฿@Model.Discount.ToString("N0")</span>
+                    </div>
+                }
+
                 <hr />
                 <div class="d-flex justify-content-between fw-bold">
                     <span>ยอดชำระ</span>
@@ -49,40 +69,33 @@
                 <div class="row g-3 mb-4">
 
                     <div class="col-6">
-                        <input type="radio" class="btn-check" name="PaymentMethod"
-                               id="cash" value="Cash" checked />
-                        <label class="btn btn-outline-secondary w-100 py-3" for="cash"
-                               style="border-radius:12px;">
+                        <input type="radio" class="btn-check" name="PaymentMethod" id="cash" value="Cash" checked />
+                        <label class="btn btn-outline-secondary w-100 py-3" for="cash" style="border-radius:12px;">
                             <div style="font-size:1.8rem;">💵</div>
                             <div class="fw-semibold mt-1">เงินสด</div>
                         </label>
                     </div>
 
                     <div class="col-6">
-                        <input type="radio" class="btn-check" name="PaymentMethod"
-                               id="qr" value="QR Code" />
-                        <label class="btn btn-outline-secondary w-100 py-3" for="qr"
-                               style="border-radius:12px;">
+                        <input type="radio" class="btn-check" name="PaymentMethod" id="qr" value="QR Code" />
+                        <label class="btn btn-outline-secondary w-100 py-3" for="qr" style="border-radius:12px;">
                             <div style="font-size:1.8rem;">📱</div>
                             <div class="fw-semibold mt-1">QR Code</div>
                         </label>
                     </div>
 
                     <div class="col-6">
-                        <input type="radio" class="btn-check" name="PaymentMethod"
-                               id="credit" value="Credit Card" />
-                        <label class="btn btn-outline-secondary w-100 py-3" for="credit"
-                               style="border-radius:12px;">
+                        <input type="radio" class="btn-check" name="PaymentMethod" id="credit" value="Credit Card" />
+                        <label class="btn btn-outline-secondary w-100 py-3" for="credit" style="border-radius:12px;">
                             <div style="font-size:1.8rem;">💳</div>
                             <div class="fw-semibold mt-1">บัตรเครดิต</div>
                         </label>
                     </div>
 
                     <div class="col-6">
-                        <input type="radio" class="btn-check" name="PaymentMethod"
-                               id="transfer" value="Bank Transfer" />
-                        <label class="btn btn-outline-secondary w-100 py-3" for="transfer"
-                               style="border-radius:12px;">
+                        <input type="radio" class="btn-check" name="PaymentMethod" id="transfer"
+                               value="Bank Transfer" />
+                        <label class="btn btn-outline-secondary w-100 py-3" for="transfer" style="border-radius:12px;">
                             <div style="font-size:1.8rem;">🏦</div>
                             <div class="fw-semibold mt-1">โอนเงิน</div>
                         </label>
@@ -92,7 +105,7 @@
 
                 <button type="submit" class="btn w-100 fw-bold text-white"
                         style="background:#c9a84c; border-radius:10px; padding:12px;">
-                    ✅ ยืนยันการชำระเงิน
+                    ยืนยันการชำระเงิน
                 </button>
             </form>
 

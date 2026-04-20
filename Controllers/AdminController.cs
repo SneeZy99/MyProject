@@ -133,7 +133,6 @@ public class AdminController : Controller
             .Where(b => b.BookingStatus == "Confirmed")
             .Sum(b => b.TotalPrice) ?? 0;
 
-        ViewBag.Pending = _context.Bookings.Count(b => b.BookingStatus == "Pending");
         ViewBag.Confirmed = _context.Bookings.Count(b => b.BookingStatus == "Confirmed");
         ViewBag.Cancelled = _context.Bookings.Count(b => b.BookingStatus == "Cancelled");
 

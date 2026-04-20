@@ -31,18 +31,18 @@ public class HomeController : Controller
     }
 
     public IActionResult Index()
-    {
-        if (User.IsInRole("Admin"))
-            return RedirectToAction("Dashboard", "Admin");
+{
+    if (User.IsInRole("Admin"))
+        return RedirectToAction("Dashboard", "Admin");
 
-        if (User.IsInRole("Receptionist"))
-            return RedirectToAction("BookingList", "Receptionist");
+    if (User.IsInRole("Receptionist"))
+        return RedirectToAction("Dashboard", "Receptionist");
 
-        if (User.IsInRole("Staff"))
-            return RedirectToAction("DailyReport", "Staff");
+    if (User.IsInRole("Staff"))
+        return RedirectToAction("DailyReport", "Staff");
 
-        return View();
-    }
+    return View();
+}
 
     public IActionResult lab8()
     {
@@ -141,6 +141,35 @@ public class HomeController : Controller
         {
             RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
         });
+    }
+    // GET: /Home/EditProfile
+    public IActionResult EditProfile()
+    {
+        var username = User.Identity?.Name;
+        var user = _context.Users.FirstOrDefault(u => u.Username == username);
+        if (user == null) return RedirectToAction("Login");
+        return View(user);
+    }
+
+    // POST: /Home/EditProfile
+    [HttpPost]
+    public IActionResult EditProfile(User model)
+    {
+        var username = User.Identity?.Name;
+        var user = _context.Users.FirstOrDefault(u => u.Username == username);
+        if (user == null) return RedirectToAction("Login");
+
+        user.FullName = model.FullName;
+        user.Email = model.Email;
+        user.Phone = model.Phone;
+
+        // เปลี่ยน password ถ้ากรอกมา
+        if (!string.IsNullOrEmpty(model.Password))
+            user.Password = model.Password;
+
+        _context.SaveChanges();
+        TempData["Success"] = "อัปเดตข้อมูลสำเร็จ!";
+        return RedirectToAction("Index");
     }
 
 
